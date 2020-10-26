@@ -15,7 +15,6 @@ namespace pfc {
     template<typename Data, GridTypes gridType>
     class Grid
     {
-
     public:
         friend class DataManager;
         Grid(const Int3 & _numInternalCells, FP _dt,
@@ -292,13 +291,13 @@ namespace pfc {
         const Int3 numInternalCells;
         const Int3 numCells;
         const FP3 origin;
+        const FP3 minCoord;
         const int dimensionality;
 
         // Time diffence between b and e
         const FP timeShiftE, timeShiftB, timeShiftJ;
 
         ScalarField<Data> Ex, Ey, Ez, Bx, By, Bz, Jx, Jy, Jz;
-        
     private:
 
         // 3d shifts of the field in the cell
@@ -394,6 +393,7 @@ namespace pfc {
     inline Grid<FP, GridTypes::YeeGridType>::Grid(const Int3 & _numCells, FP _dt, const FP3 & minCoords, const FP3 & _steps,
         const Int3 & _globalGridDims) :
         globalGridDims(_globalGridDims),
+        minCoord(minCoords),
         steps(_steps),
         dt(_dt),
         numInternalCells(_numCells),
@@ -431,6 +431,7 @@ namespace pfc {
     inline Grid<FP, GridTypes::StraightGridType>::Grid(const Int3 & _numInternalCells, FP _dt, const FP3 & minCoords, const FP3 & _steps,
         const Int3 & _globalGridDims) :
         globalGridDims(_globalGridDims),
+        minCoord(minCoords),
         steps(_steps),
         dt(_dt),
         numInternalCells(_numInternalCells),
@@ -521,6 +522,7 @@ namespace pfc {
     inline Grid<FP, GridTypes::PSTDGridType>::Grid(const Int3 & _numInternalCells, FP _dt,
         const FP3 & minCoords, const FP3 & _steps, const Int3 & _globalGridDims) :
         globalGridDims(_globalGridDims),
+        minCoord(minCoords),
         steps(_steps),
         dt(_dt),
         numInternalCells(_numInternalCells),
@@ -611,6 +613,7 @@ namespace pfc {
     inline Grid<FP, GridTypes::PSATDGridType>::Grid(const Int3 & _numInternalCells, FP _dt,
         const FP3 & minCoords, const FP3 & _steps, const Int3 & _globalGridDims) :
         globalGridDims(_globalGridDims),
+        minCoord(minCoords),
         steps(_steps),
         dt(_dt),
         numInternalCells(_numInternalCells),
@@ -697,6 +700,7 @@ namespace pfc {
     inline Grid<FP, GridTypes::PSATDTimeStraggeredGridType>::Grid(const Int3 & _numInternalCells, FP _dt,
         const FP3 & minCoords, const FP3 & _steps, const Int3 & _globalGridDims) :
         globalGridDims(_globalGridDims),
+        minCoord(minCoords),
         steps(_steps),
         dt(_dt),
         numInternalCells(_numInternalCells),

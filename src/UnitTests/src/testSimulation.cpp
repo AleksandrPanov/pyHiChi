@@ -92,3 +92,18 @@ TYPED_TEST(DataManagerTests, Can_Put_Get_ScalarField)
     EXPECT_EQ(res(0, 0, 0), tmp(0, 0, 0));
     EXPECT_EQ(res(0, 1, 1), tmp(0, 1, 1));
 }
+
+TYPED_TEST(DataManagerTests, Can_Put_Get_Grid)
+{
+    string var_name = "grid", path = "test_grid";
+    DataManager manager(path, IOType::Write);
+    Int3 gridSize(11, 5, 6);
+    FP3 minCoords = FP3(-1.0, 0.0, 0.0);
+    FP3 maxCoords = FP3(1.0, 1.0, 1.0);
+    FP3 steps((maxCoords.x - minCoords.x) / gridSize.x,
+        (maxCoords.y - minCoords.y) / gridSize.y,
+        (maxCoords.z - minCoords.z) / gridSize.z);
+    FP timeStep = 1e-15;
+    YeeGrid yeeGrid = new YeeGrid(gridSize, timeStep, minCoords, steps, gridSize);
+    manager.customPut("YeeGrid", yeeGrid);
+}

@@ -106,7 +106,6 @@ public:
     template<typename Data>
     void customGet(const std::string name, ScalarField<Data>& field)
     {
-        //adios2::Variable<Data> var = io.InquireVariable<Data>(name);
         Int3 size;
         customGet(name + "3dsize", size);
         field = ScalarField<Data>(size);
@@ -119,6 +118,23 @@ public:
     {
         putVariable(name + "dt", grid.dt);
         customPut(name + "numInternalCells", grid.numInternalCells);
+        customPut(name + "minCoord", grid.minCoord);
+        customPut(name + "steps", grid.steps);
+        customPut(name + "globalGridDims", grid.globalGridDims);
+    }
+
+    template<typename Data, GridTypes gridType>
+    void customGet(const std::string name, const Grid<Data, gridType>& grid)
+    {
+        FP dt;
+        Int3 numInternalCells, globalGridDims;
+        FP3 minCoord, steps;
+        getVariable(name + "dt", dt);
+        customPut(name + "numInternalCells", numInternalCells);
+        customPut(name + "minCoord", minCoord);
+        customPut(name + "steps", steps);
+        customPut(name + "steps", globalGridDims);
+        grid = Grid(numInternalCells, dt, minCoord, steps, globalGridDims);
     }
 };
 } // namespace pfc

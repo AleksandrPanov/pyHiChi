@@ -6,7 +6,7 @@ for %%x in (%*) do (
 )
 
 set USE_OPENMP="OFF"
-set GENERATOR="Visual Studio 15 2017 Win64"
+set GENERATOR="Visual Studio 16 2019"
 set USE_FFTW="OFF"
 set USE_MKL="OFF"
 set PYTHON="python"
