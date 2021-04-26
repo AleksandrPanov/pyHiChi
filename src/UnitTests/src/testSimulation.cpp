@@ -104,6 +104,11 @@ TYPED_TEST(DataManagerTests, Can_Put_Get_Grid)
         (maxCoords.y - minCoords.y) / gridSize.y,
         (maxCoords.z - minCoords.z) / gridSize.z);
     FP timeStep = 1e-15;
-    YeeGrid yeeGrid = new YeeGrid(gridSize, timeStep, minCoords, steps, gridSize);
-    manager.customPut("YeeGrid", yeeGrid);
+    YeeGrid yeeGrid = YeeGrid(gridSize, timeStep, minCoords, steps, gridSize);
+    //ASSERT_NO_THROW(manager.customPut("YeeGrid", yeeGrid));
+    //
+    //manager.setEngine(IOType::Read);
+    //YeeGrid res = YeeGrid(gridSize, timeStep, minCoords, steps, gridSize);
+    //manager.customGet(var_name, res);
+    //manager.endStep();
 }

@@ -376,7 +376,9 @@ PYBIND11_MODULE(pyHiChi, object) {
         .def("getE", &TightFocusingField::E)
         .def("getB", &TightFocusingField::B)
         ;
-        
+    
+    // Ќужно что-то сделать с ссылками. «аменить на shared_ptr?
+    // локальные переменные в python затираютс€
     py::class_<Simulation>(object, "Simulation")
         .def(py::init<pyYeeGrid&, unsigned int>())
         .def("addModule", (void (Simulation::*)(FDTD&))&Simulation::addModule)

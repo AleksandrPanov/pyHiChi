@@ -124,17 +124,17 @@ public:
     }
 
     template<typename Data, GridTypes gridType>
-    void customGet(const std::string name, const Grid<Data, gridType>& grid)
+    void customGet(const std::string name, Grid<Data, gridType>&grid)
     {
         FP dt;
         Int3 numInternalCells, globalGridDims;
         FP3 minCoord, steps;
         getVariable(name + "dt", dt);
-        customPut(name + "numInternalCells", numInternalCells);
-        customPut(name + "minCoord", minCoord);
-        customPut(name + "steps", steps);
-        customPut(name + "steps", globalGridDims);
-        grid = Grid(numInternalCells, dt, minCoord, steps, globalGridDims);
+        customGet(name + "numInternalCells", numInternalCells);
+        customGet(name + "minCoord", minCoord);
+        customGet(name + "steps", steps);
+        customGet(name + "globalGridDims", globalGridDims);
+        //grid = new Grid<Data, gridType>(numInternalCells, dt, minCoord, steps, globalGridDims);
     }
 };
 } // namespace pfc
