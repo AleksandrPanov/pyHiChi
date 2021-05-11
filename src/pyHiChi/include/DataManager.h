@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "Grid.h"
-
+#include "ParticleArray.h"
 #include <adios2.h>
 namespace pfc {
 
@@ -82,6 +82,30 @@ public:
     }
 
     template<typename T>
+    void customPut(const std::string name, const Vector1<T>& val)
+    {
+        putVariable(name + "x", val.x);
+    }
+    template<typename T>
+    void customGet(const std::string name, Vector1<T>& val)
+    {
+        getVariable(name + "x", val.x);
+    }
+
+    template<typename T>
+    void customPut(const std::string name, const Vector2<T>& val)
+    {
+        putVariable(name + "x", val.x);
+        putVariable(name + "y", val.y);
+    }
+    template<typename T>
+    void customGet(const std::string name, Vector2<T>& val)
+    {
+        getVariable(name + "x", val.x);
+        getVariable(name + "y", val.y);
+    }
+
+    template<typename T>
     void customPut(const std::string name, const Vector3<T>& val)
     {
         putVariable(name + "x", val.x);
@@ -134,7 +158,52 @@ public:
         customGet(name + "minCoord", minCoord);
         customGet(name + "steps", steps);
         customGet(name + "globalGridDims", globalGridDims);
-        //grid = new Grid<Data, gridType>(numInternalCells, dt, minCoord, steps, globalGridDims);
+        //grid = Grid<Data, gridType>(numInternalCells, dt, minCoord, steps, globalGridDims);
+        //grid = YeeGrid(numInternalCells, dt, minCoord, steps, globalGridDims);
+        //добавить инициализицию поля
+    }
+
+    //Particle
+    template<Dimension dimension>
+    void customPut(const std::string name, Particle<dimension>& particle)
+    {
+        customPut("PositionType", particle.position);
+        customPut("MomentumType", particle.p);
+        putVariable("WeightType", particle.weight);
+        putVariable("GammaType", particle.gamma);
+        putVariable("TypeIndexType", (int)particle.typeIndex);
+    }
+    template<Dimension dimension>
+    void customGet(const std::string name, Particle<dimension>& particle)
+    {
+    }
+
+    //ParticleArrayAoS
+    template<Dimension dimension>
+    void customPut(const std::string name, ParticleArrayAoS<dimension>& particleArray)
+    {
+        const size_t size = particleArray.size();
+        putVariable("size", size);
+    }
+    template<Dimension dimension>
+    void customGet(const std::string name, ParticleArrayAoS<dimension>& particleArray)
+    {
+       size_t size;
+       getVariable("size", size);
+    }
+
+    //ParticleArraySoA
+    template<Dimension dimension>
+    void customPut(const std::string name, ParticleArraySoA<dimension>& particleArray)
+    {
+        const size_t size = particleArray.size();
+        putVariable("size", size);
+    }
+    template<Dimension dimension>
+    void customGet(const std::string name, ParticleArraySoA<dimension>& particleArray)
+    {
+        size_t size;
+        getVariable("size", size);
     }
 };
 } // namespace pfc

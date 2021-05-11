@@ -1,5 +1,6 @@
 #include "TestingUtility.h"
 #include "Fdtd.h"
+#include "Particle.h"
 #include "Simulation.h"
 #include "DataManager.h"
 using namespace pfc;
@@ -92,7 +93,6 @@ TYPED_TEST(DataManagerTests, Can_Put_Get_ScalarField)
     EXPECT_EQ(res(0, 0, 0), tmp(0, 0, 0));
     EXPECT_EQ(res(0, 1, 1), tmp(0, 1, 1));
 }
-
 TYPED_TEST(DataManagerTests, Can_Put_Get_Grid)
 {
     string var_name = "grid", path = "test_grid";
@@ -105,10 +105,19 @@ TYPED_TEST(DataManagerTests, Can_Put_Get_Grid)
         (maxCoords.z - minCoords.z) / gridSize.z);
     FP timeStep = 1e-15;
     YeeGrid yeeGrid = YeeGrid(gridSize, timeStep, minCoords, steps, gridSize);
-    //ASSERT_NO_THROW(manager.customPut("YeeGrid", yeeGrid));
-    //
-    //manager.setEngine(IOType::Read);
-    //YeeGrid res = YeeGrid(gridSize, timeStep, minCoords, steps, gridSize);
-    //manager.customGet(var_name, res);
-    //manager.endStep();
+    ASSERT_NO_THROW(manager.customPut(var_name, yeeGrid));
+
+    manager.setEngine(IOType::Read);
+    YeeGrid res = YeeGrid(gridSize, timeStep, minCoords, steps, gridSize);
+    manager.customGet(var_name, res);
+    manager.endStep();
+}
+
+
+TYPED_TEST(DataManagerTests, Can_Put_Get_particle)
+{
+    string var_name = "particle", path = "test_particle";
+    DataManager manager(path, IOType::Write);
+    Particle<Dimension::Three> p;
+    ASSERT_NO_THROW(manager.customPut("particle", p));
 }

@@ -6,6 +6,7 @@
 #include "Vectors.h"
 #include "VectorsProxy.h"
 
+
 #include <cmath>
 #include <stddef.h>
 #include <string>
@@ -38,7 +39,7 @@ namespace pfc {
     template<Dimension dimension>
     class Particle {
     public:
-        
+        friend class DataManager;
         // Types for conforming ParticleInterface
         typedef typename VectorTypeHelper<dimension, Real>::Type PositionType;
         typedef typename VectorTypeHelper<Three, Real>::Type MomentumType;
